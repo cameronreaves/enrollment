@@ -1,0 +1,29 @@
+---
+title: "enrollment"
+output: html_document
+---
+
+```{r}
+library(tidycensus)
+library(tidyverse)
+library(janitor)
+library(readxl)
+```
+
+```{r}
+class = read_excel("class.xlsx", skip = 3) 
+#most students enrolled 
+class = clean_names(class)
+```
+
+
+```{r}
+class %>% 
+  group_by(course_department) %>% 
+  mutate(department_total = sum(total)) %>% 
+  select(course_department, department_total) %>% 
+  distinct(course_department, .keep_all = TRUE) %>% 
+  arrange(desc(department_total))
+
+```
+
